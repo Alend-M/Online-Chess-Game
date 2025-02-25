@@ -29,12 +29,30 @@ for img in w:
 
 
 class Piece:
+    """Base class for chess pieces.
+    This class serves as the foundation for all chess pieces in the game, providing common attributes
+    and methods that all pieces share.
+    Attributes:
+        __img (int): Image index for the piece sprite (-1 by default)
+        __rect (tuple): Board dimensions tuple (x, y, width, height)
+        __startX (int): Starting X coordinate from __rect
+        __startY (int): Starting Y coordinate from __rect
+    """
     __img = -1
     __rect = (113, 113, 525, 525)
     __startX = __rect[0]
     __startY = __rect[1]
 
     def __init__(self, row, col, color):
+        """Initialize a new chess piece.
+        Args:
+            row (int): Initial row position of the piece
+            col (int): Initial column position of the piece
+            color (str): Color of the piece ('w' for white, 'b' for black)
+        Return:
+            None
+        """
+        
         self._row = row
         self._col = col
         self.__color = color
@@ -44,12 +62,29 @@ class Piece:
         self.__pawn = False
 
     def isSelected(self):
+        """Check if the piece is currently selected.
+        Returns:
+            bool: True if piece is selected, False otherwise
+        """
         return self.__selected
 
     def update_valid_moves(self, board):
+        """Update the list of valid moves for this piece.
+        Args:
+            board (Board): Current game board state
+        Return:
+            None
+        """
         self.__move_list = self.valid_moves(board)
 
     def draw(self, win, color):
+        """Draw the piece on the game board.
+        Args:
+            win (pygame.Surface): Pygame window surface
+            color (str): Color of the piece ('w' for white, 'b' for black)
+        return:
+            None
+        """
         if self.__color == "w":
             drawThis = W[self.__img]
         else:
@@ -64,10 +99,20 @@ class Piece:
         win.blit(drawThis, (x, y))
 
     def change_pos(self, pos):
+        """Change the position of the piece.
+        Args:
+            pos (tuple): New position tuple (row, col)
+        return:
+            None
+        """
         self._row = pos[0]
         self._col = pos[1]
 
     def __str__(self):
+        """String representation of the piece.
+        Returns:
+            str: Piece color and position
+        """
         return str(self.__col) + " " + str(self._row)
 
 
@@ -75,6 +120,12 @@ class Bishop(Piece):
     __img = 0
 
     def valid_moves(self, board):
+        """Generate a list of valid moves for the bishop.
+        Args:
+            board (Board): Current game board state
+        Returns:
+            list: List of valid moves for the bishop
+        """
         i = self._row
         j = self._col
 
@@ -151,10 +202,24 @@ class King(Piece):
     img = 1
 
     def __init__(self, row, col, color):
+        """Initialize a new king piece.
+        Args:
+            row (int): Initial row position of the king
+            col (int): Initial column position of the king
+            color (str): Color of the king ('w' for white, 'b' for black)
+        Return:
+            None
+        """
         super().__init__(row, col, color)
         self.king = True
 
     def valid_moves(self, board):
+        """Generate a list of valid moves for the king.
+        Args:
+            board (Board): Current game board state
+        Returns:
+            list: List of valid moves for the king
+        """
         i = self.row
         j = self.col
 
@@ -231,6 +296,12 @@ class Knight(Piece):
     img = 2
 
     def valid_moves(self, board):
+        """Generate a list of valid moves for the knight.
+        Args:
+            board (Board): Current game board state
+        Returns:
+            list: List of valid moves for the knight
+        """
         i = self.row
         j = self.col
 
