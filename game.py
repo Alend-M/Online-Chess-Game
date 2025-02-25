@@ -84,6 +84,21 @@ def menu_screen(win, name):
 
     
 def redraw_gameWindow(win, bo, p1, p2, color, ready):
+    """Base function for redrawing the game window.
+    This function handles all the visual updates of the chess game interface, including
+    the board, pieces, timers, and game status messages.
+
+    Args:
+        win (pygame.Surface): The game window surface to draw on
+        bo (Board): The chess board object containing game state
+        p1 (float): Player 1's remaining time in seconds
+        p2 (float): Player 2's remaining time in seconds
+        color (str): Current player's color ('w', 'b', or 's' for spectator)
+        ready (bool): Whether the game is ready to start
+
+    Returns:
+        None
+    """
     win.blit(board, (0, 0))
     bo.draw(win, color)
 
@@ -138,6 +153,14 @@ def redraw_gameWindow(win, bo, p1, p2, color, ready):
 
 
 def end_screen(win, text):
+    """Base function for displaying the end screen.
+    This function displays a message on the game window when the game ends.
+    Args:
+        win (pygame.Surface): The game window surface to draw on
+        text (str): The text message to display on the screen
+    Returns:
+        None
+    """
     pygame.font.init()
     font = pygame.font.SysFont("comicsans", 80)
     txt = font.render(text,1, (255,0,0))
