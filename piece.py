@@ -29,62 +29,54 @@ for img in w:
 
 
 class Piece:
-    img = -1
-    rect = (113, 113, 525, 525)
-    startX = rect[0]
-    startY = rect[1]
+    __img = -1
+    __rect = (113, 113, 525, 525)
+    __startX = __rect[0]
+    __startY = __rect[1]
 
     def __init__(self, row, col, color):
-        self.row = row
-        self.col = col
-        self.color = color
-        self.selected = False
-        self.move_list = []
-        self.king = False
-        self.pawn = False
+        self._row = row
+        self._col = col
+        self.__color = color
+        self.__selected = False
+        self.__move_list = []
+        self.__king = False
+        self.__pawn = False
 
     def isSelected(self):
-        return self.selected
+        return self.__selected
 
     def update_valid_moves(self, board):
-        self.move_list = self.valid_moves(board)
+        self.__move_list = self.valid_moves(board)
 
     def draw(self, win, color):
-        if self.color == "w":
-            drawThis = W[self.img]
+        if self.__color == "w":
+            drawThis = W[self.__img]
         else:
-            drawThis = B[self.img]
+            drawThis = B[self.__img]
 
-        x = (4 - self.col) + round(self.startX + (self.col * self.rect[2] / 8))
-        y = 3 + round(self.startY + (self.row * self.rect[3] / 8))
+        x = (4 - self._col) + round(self.__startX + (self._col * self.__rect[2] / 8))
+        y = 3 + round(self.__startY + (self._row * self.__rect[3] / 8))
 
-        if self.selected and self.color == color:
+        if self.__selected and self._color == color:
             pygame.draw.rect(win, (255, 0, 0), (x, y, 62, 62), 4)
 
         win.blit(drawThis, (x, y))
 
-        '''if self.selected and self.color == color:  # Remove false to draw dots
-            moves = self.move_list
-
-            for move in moves:
-                x = 33 + round(self.startX + (move[0] * self.rect[2] / 8))
-                y = 33 + round(self.startY + (move[1] * self.rect[3] / 8))
-                pygame.draw.circle(win, (255, 0, 0), (x, y), 10)'''
-
     def change_pos(self, pos):
-        self.row = pos[0]
-        self.col = pos[1]
+        self._row = pos[0]
+        self._col = pos[1]
 
     def __str__(self):
-        return str(self.col) + " " + str(self.row)
+        return str(self.__col) + " " + str(self._row)
 
 
 class Bishop(Piece):
-    img = 0
+    __img = 0
 
     def valid_moves(self, board):
-        i = self.row
-        j = self.col
+        i = self._row
+        j = self._col
 
         moves = []
 
