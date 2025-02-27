@@ -3,19 +3,6 @@ import pickle
 import time
 
 class Network:
-    """Network class for managing client-side socket connections in a chess game.
-    This class handles all network-related operations including establishing connections,
-    sending/receiving data, and managing the game board state through socket communication.
-    Attributes:
-        client (socket): Socket object for client-side connection
-        host (str): Server hostname, default is "localhost"
-        port (int): Server port number, default is 5555
-        addr (tuple): Tuple containing host and port for connection
-        board (object): Game board state received from server after connection
-    Raises:
-        socket.error: If connection or data transmission fails
-        Exception: If there are issues with data serialization/deserialization
-    """
     
     def __init__(self):
         """
