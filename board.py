@@ -142,7 +142,7 @@ class Board:
                         s = (i, j)
 
 
-    def get__danger__moves(self, color):
+    def get_danger_moves(self, color):
         """Get the moves that put the king in check.
 
         Args:
@@ -150,15 +150,15 @@ class Board:
         Returns:
             list: List of moves that put the king in check
         """
-        danger__moves = []
-        for i in range(self.__rows):
-            for j in range(self.__cols):
-                if self.__board[i][j] != 0:
-                    if self.__board[i][j].color != color:
-                        for move in self.__board[i][j].move__list:
-                            danger__moves.append(move)
-
-        return danger__moves
+        # Using generator expression to yield moves
+        def generate_danger_moves():
+            for i in range(self.__rows):
+                for j in range(self.__cols):
+                    piece = self.__board[i][j]
+                    if piece != 0 and piece.color != color:
+                        yield from piece.move_list
+    
+        return list(generate_danger_moves())
 
     def is__checked(self, color):
         """Check if the king is in check.
