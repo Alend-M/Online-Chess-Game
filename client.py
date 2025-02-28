@@ -6,42 +6,42 @@ class Network:
     
     def __init__(self):
         """
-        Initializes the Network class with default host and port values.
+        Initializes the Network class with default __host and __port values.
 
         Args:
             None
         Returns:
             None
         """
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = "localhost"
-        self.port = 5555
-        self.addr = (self.host, self.port)
-        self.board = self.connect()
-        self.board = pickle.loads(self.board)
+        self.__client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.__host = "local__host"
+        self.__port = 5555
+        self.__addr = (self.__host, self.__port)
+        self.__board = self.connect()
+        self.__board = pickle.loads(self.__board)
 
     def connect(self):
         """
-        Connects to the server and receives the initial game board state.
+        Connects to the server and receives the initial game __board state.
 
         Args:
             None
         Returns:
-            str: Serialized game board state
+            str: Serialized game __board state
         """
-        self.client.connect(self.addr)
-        return self.client.recv(4096*8)
+        self.__client.connect(self.__addr)
+        return self.__client.recv(4096*8)
 
     def disconnect(self):
         """
-        Disconnects the client from the server.
+        Disconnects the __client from the server.
 
         Args:
             None
         Returns:
             None
         """
-        self.client.close()
+        self.__client.close()
 
     def send(self, data, pick=False):
         """ 
@@ -58,10 +58,10 @@ class Network:
         while time.time() - start_time < 5:
             try:
                 if pick:
-                    self.client.send(pickle.dumps(data))
+                    self.__client.send(pickle.dumps(data))
                 else:
-                    self.client.send(str.encode(data))
-                reply = self.client.recv(4096*8)
+                    self.__client.send(str.encode(data))
+                reply = self.__client.recv(4096*8)
                 try:
                     reply = pickle.loads(reply)
                     break
