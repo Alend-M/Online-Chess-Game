@@ -13,7 +13,7 @@ class Board:
     __startX = __rect[0]
     __startY = __rect[1]
 
-    def ____init____(self, rows, cols):
+    def __init__(self, rows, cols):
         """Initialize a new chess board.
 
         Args:
