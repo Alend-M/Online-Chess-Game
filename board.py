@@ -14,6 +14,30 @@ class Board:
     __startY = __rect[1]
 
     def ____init____(self, rows, cols):
+        """Initialize a new chess board.
+
+        Args:
+            rows (int): Number of rows on the chess board
+            cols (int): Number of columns on the chess board
+        Attributes:
+            __rows (int): Number of rows on the board
+            __cols (int): Number of columns on the board
+            __ready (bool): Flag indicating if board is ready for play
+            __last (tuple): Last move made on the board
+            __copy (bool): Flag indicating if this is a copy of another board
+            __board (list): 2D list representing the chess board and pieces
+            __p1Name (str): Name of player 1
+            __p2Name (str): Name of player 2
+            __turn (str): Current turn ('w' for white, 'b' for black)
+            __time1 (int): Remaining time for player 1 in seconds
+            __time2 (int): Remaining time for player 2 in seconds
+            __storedTime1 (int): Stored time for player 1
+            __storedTime2 (int): Stored time for player 2
+            __winner (str): Winner of the game (None if game ongoing)
+            __startTime (float): Unix timestamp when game started
+        Returns:
+            None
+        """
         self.__rows = rows
         self.__cols = cols
 
@@ -77,12 +101,27 @@ class Board:
         self.__startTime = time.time()
 
     def update__moves(self):
+        """Update the valid moves for all pieces on the board.
+        
+        Args:
+            None
+        Returns:
+            None
+        """
         for i in range(self.__rows):
             for j in range(self.__cols):
                 if self.__board[i][j] != 0:
                     self.__board[i][j].update__valid__moves(self.__board)
 
     def draw(self, win, color):
+        """Draw the chess board and pieces on the screen.
+
+        Args:
+            win (pygame.Surface): The window to draw the board on
+            color (str): The color of the current player ('w' or 'b')
+        Returns:
+            None
+        """
         if self.__last and color == self.turn:
             y, x = self.__last[0]
             y1, x1 = self.__last[1]
@@ -104,6 +143,13 @@ class Board:
 
 
     def get__danger__moves(self, color):
+        """Get the moves that put the king in check.
+
+        Args:
+            color (str): The color of the player ('w' or 'b')  
+        Returns:
+            list: List of moves that put the king in check
+        """
         danger__moves = []
         for i in range(self.__rows):
             for j in range(self.__cols):
@@ -115,6 +161,13 @@ class Board:
         return danger__moves
 
     def is__checked(self, color):
+        """Check if the king is in check.
+
+        Args:
+            color (str): The color of the player ('w' or 'b')
+        Returns:
+            bool: True if the king is in check, False otherwise
+        """
         self.update__moves()
         danger__moves = self.get__danger__moves(color)
         king__pos = (-1, -1)
@@ -130,6 +183,16 @@ class Board:
         return False
 
     def select(self, col, row, color):
+
+        """Select a piece on the board.
+        
+        Args:
+            col (int): Column of the selected piece
+            row (int): Row of the selected piece
+            color (str): The color of the player ('w' or 'b')
+        Returns:
+            None
+        """
         changed = False
         prev = (-1, -1)
         for i in range(self.__rows):
@@ -198,34 +261,39 @@ class Board:
                 self.reset__selected()
 
     def reset__selected(self):
+        """Reset the selected flag for all pieces on the board.
+
+        Args:
+            None
+        Returns:
+            None
+        """
         for i in range(self.__rows):
             for j in range(self.__cols):
                 if self.__board[i][j] != 0:
                     self.__board[i][j].selected = False
 
     def check__mate(self, color):
-        '''if self.is__checked(color):
-            king = None
-            for i in range(self.__rows):
-                for j in range(self.__cols):
-                    if self.__board[i][j] != 0:
-                        if self.__board[i][j].king and self.__board[i][j].color == color:
-                            king = self.__board[i][j]
-            if king is not None:
-                valid__moves = king.valid__moves(self.__board)
-
-                danger__moves = self.get__danger__moves(color)
-
-                danger__count = 0
-
-                for move in valid__moves:
-                    if move in danger__moves:
-                        danger__count += 1
-                return danger__count == len(valid__moves)'''
+        """Check if the king is in checkmate.
+        
+        Args:
+            color (str): The color of the player ('w' or 'b')
+        returns:
+            bool: True if the king is in checkmate, False otherwise
+        """
 
         return False
 
     def move(self, start, end, color):
+        """Move a piece on the board.   
+
+        Args:
+            start (tuple): Starting position of the piece
+            end (tuple): Ending position of the piece
+            color (str): The color of the player ('w' or 'b')   
+        Returns:
+            bool: True if the move was successful, False otherwise
+        """
         checkedBefore = self.is__checked(color)
         changed = True
         nBoard = self.__board[:]
